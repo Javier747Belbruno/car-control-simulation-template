@@ -12,9 +12,15 @@
   "devDependencies": {
     "@snowpack/plugin-typescript": "^1.2.1",
     "@types/canvas-confetti": "^1.0.0",
+    "@types/dat.gui": "^0.7.6",
     "@types/snowpack-env": "^2.3.3",
+    "@types/three": "^0.129.1",
+    "cannon-es": "latest",
+    "cannon-es-debugger": "latest",
+    "dat.gui": "latest",
     "prettier": "^2.2.1",
     "snowpack": "^3.3.7",
+    "three": "latest",
     "typescript": "^4.2.4"
   }
 }
