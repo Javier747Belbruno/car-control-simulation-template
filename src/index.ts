@@ -1,15 +1,18 @@
 import * as THREE from 'three';
 import * as CANNON from 'cannon-es';
 import {GUI} from 'dat.gui';
-
+//import cannonDebugger from 'cannon-es-debugger'
 
 var stateProgram = 1; //0 Start Screen.  //1 Free Drive. //2 PIDController.
 var cameraOption = 1; //1 Chase Camera // 2 Chase Camera Side.                     
 
 var container = <HTMLDivElement>document.querySelector('#app');
+var infoHtmlElement = <HTMLDivElement>document.querySelector('#info');
 
 
 simulation();
+
+
 function simulation(){
 
 
@@ -31,8 +34,8 @@ var chassisBody: CANNON.Body;
 var initialTime: number;
 
 
-  //DAT GUI
-  var gui = new GUI( );
+//DAT GUI
+var gui = new GUI( );
 
 function init() {
 
@@ -417,7 +420,22 @@ function UpdateInfo(){
   var roll  = Math.atan2(2.0 * (q3 ) , 1.0 - 2.0 * (q1 * q1 ));
   var pitch = Math.asin(2.0 * ( q3 * q1));
   var yaw   = Math.atan2(2.0 * (q3  + q1 ) , - 1.0 + 2.0 * ( q1 * q1));
+  infoHtmlElement.innerText = "Signal: " + String(Math.round(u))
+  +"\n" +"EngineForce Left Rear Wheel:" + String(Math.round(vehicle.wheelInfos[2].engineForce) )
+  +"\n" + "EngineForce Right Rear Wheel:" + String(Math.round(vehicle.wheelInfos[3].engineForce) )
+  +"\n" + "Steering:" + String(vehicle.wheelInfos[2].steering )
+  +"\n" + "Body Position:  x: " + String(Math.round(vehicle.chassisBody.position.x)) + ", y: " + String(Math.round(vehicle.chassisBody.position.y)) + " , z: " + String(Math.round(vehicle.chassisBody.position.z) )
+  +"\n" + "Vehicle.sliding:" + String(vehicle.sliding )
+  +"\n" + "ChassisBody.velocity  x: " + String(Math.round(vehicle.chassisBody.velocity.x)) + ", y: " + String(Math.round(vehicle.chassisBody.velocity.y)) + " , z: " + String(Math.round(vehicle.chassisBody.velocity.z) )
+  +"\n" + "vehicle.currentVehicleSpeedKmHour: " + String((Math.round(vehicle.currentVehicleSpeedKmHour)) )
+  +"\n" + "vehicle.vectorToWorldFrame x: " + String((point.normalize() ))
 
+  +"\n" + "vehicle.x: "  + String(Math.round((100*vehicle.wheelInfos[0].axleWorld.x) ))
+  +"\n" + "vehicle.z: "  + String(Math.round((100*vehicle.wheelInfos[0].axleWorld.z) ))
+  +"\n" + "roll: "  + String(Math.round(roll)* (180/Math.PI) ) + " ,pitch: "  + String(Math.round(pitch)* (180/Math.PI) )  + " ,yaw: "  + String(Math.round(yaw)* (180/Math.PI) ) 
+  +"\n" + "Time (Seconds): " +  CurrentTime;
+  + winnerInfo
+  ;
   CurrentTime = String((Date.now() - initialTime)/1000);
 }
 
@@ -441,6 +459,7 @@ function render() {
   updatePhysics();
   UpdateInfo();
   DidYouWin();
+
 }
 
 initialTime = Date.now();
